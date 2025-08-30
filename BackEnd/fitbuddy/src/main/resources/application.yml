@@ -1,0 +1,16 @@
+spring:
+  application:
+    name: fitbuddy
+  datasource:
+    url: jdbc:postgresql://localhost:5432/fitbuddy_db
+    username: fitbuddy_user
+    password: fitbuddy_password
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate:
+        "[format_sql]": true
+        "[dialect]": org.hibernate.dialect.PostgreSQLDialect
