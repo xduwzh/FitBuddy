@@ -6,7 +6,7 @@ import io.github.xduwzh.fitbuddy.entity.User;
 import io.github.xduwzh.fitbuddy.service.UserService; 
 
 @RestController
-@RequestMapping("/users")
+@RequestMapping
 public class UserController {
 
     @Autowired
