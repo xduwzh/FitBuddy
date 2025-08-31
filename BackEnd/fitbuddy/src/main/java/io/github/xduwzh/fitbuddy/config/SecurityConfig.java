@@ -14,7 +14,7 @@ public class SecurityConfig {
         http
             .csrf(csrf -> csrf.disable())
             .authorizeHttpRequests(authz -> authz
-                .requestMatchers("/login","/register", "/checkin/**").permitAll() // Allow unauthenticated users to access auth and checkin endpoints
+                .requestMatchers("/login","/register", "/checkin/**", "/users/*/profile").permitAll() // Allow unauthenticated users to access auth, checkin, and profile endpoints
                 .anyRequest().authenticated() // Other requests require authentication
             )
             .formLogin(form -> form.disable()); // Disable default form login (enable if needed)
