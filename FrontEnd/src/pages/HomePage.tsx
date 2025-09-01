@@ -1,7 +1,11 @@
+import DailyCheckin from "../components/DailyCheckin";
+
 export default function HomePage() {
   return (
-    <div style={{ color: "#666", textAlign: "center", padding: "24px 0" }}>
-      {/* Intentionally minimal per request */}
+    <div style={{ padding: 16 }}>
+      <div style={{ maxWidth: 1100, margin: "0 auto" }}>
+        <DailyCheckin />
+      </div>
     </div>
   );
 }

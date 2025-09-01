@@ -1,8 +1,8 @@
 import { useAppSelector } from "../store/hooks";
+import { Link } from "react-router-dom";
 
 export default function AppHeader() {
   const user = useAppSelector((s) => s.auth.user);
-
   const username = user?.username || user?.email?.split("@")[0];
 
   return (
@@ -23,13 +23,22 @@ export default function AppHeader() {
           alignItems: "center",
         }}
       >
-        <h1
-          style={{ margin: 0, display: "flex", alignItems: "center", gap: 8 }}
-        >
-          <span role="img" aria-label="dumbbell">
-            🏋️
-          </span>
-          <span style={{ fontWeight: 700 }}>FitBuddy</span>
+        <h1 style={{ margin: 0 }}>
+          <Link
+            to="/home"
+            style={{
+              color: "#fff",
+              textDecoration: "none",
+              display: "flex",
+              alignItems: "center",
+              gap: 8,
+            }}
+          >
+            <span role="img" aria-label="dumbbell">
+              🏋️
+            </span>
+            <span style={{ fontWeight: 700 }}>FitBuddy</span>
+          </Link>
         </h1>
 
         <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
