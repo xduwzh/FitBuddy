@@ -33,7 +33,9 @@ export default function NavTab() {
         style={linkStyle}
         className={({ isActive }) => (isActive ? "active" : "")}
       >
-        <span role="img" aria-label="home">🏠</span>
+        <span role="img" aria-label="home">
+          🏠
+        </span>
         <span>Home</span>
       </NavLink>
       <NavLink
@@ -41,7 +43,9 @@ export default function NavTab() {
         style={linkStyle}
         className={({ isActive }) => (isActive ? "active" : "")}
       >
-        <span role="img" aria-label="stats">📊</span>
+        <span role="img" aria-label="stats">
+          📊
+        </span>
         <span>Stats</span>
       </NavLink>
       <NavLink
@@ -49,7 +53,9 @@ export default function NavTab() {
         style={linkStyle}
         className={({ isActive }) => (isActive ? "active" : "")}
       >
-        <span role="img" aria-label="profile">👤</span>
+        <span role="img" aria-label="profile">
+          👤
+        </span>
         <span>Profile</span>
       </NavLink>
 
@@ -58,7 +64,9 @@ export default function NavTab() {
         style={linkStyle}
         className={({ isActive }) => (isActive ? "active" : "")}
       >
-        <span role="img" aria-label="settings">⚙️</span>
+        <span role="img" aria-label="settings">
+          ⚙️
+        </span>
         <span>Settings</span>
       </NavLink>
     </nav>

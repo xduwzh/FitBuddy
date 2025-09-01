@@ -26,7 +26,9 @@ export default function AppHeader() {
         <h1
           style={{ margin: 0, display: "flex", alignItems: "center", gap: 8 }}
         >
-          <span role="img" aria-label="dumbbell">🏋️</span>
+          <span role="img" aria-label="dumbbell">
+            🏋️
+          </span>
           <span style={{ fontWeight: 700 }}>FitBuddy</span>
         </h1>
 

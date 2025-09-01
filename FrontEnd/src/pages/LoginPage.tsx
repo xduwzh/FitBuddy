@@ -44,7 +44,10 @@ export default function LoginPage() {
         <h1
           style={{ margin: 0, display: "flex", alignItems: "center", gap: 8 }}
         >
-            <span role="img" aria-label="dumbbell">🏋️</span> FitBuddy
+          <span role="img" aria-label="dumbbell">
+            🏋️
+          </span>{" "}
+          FitBuddy
         </h1>
       </header>
 

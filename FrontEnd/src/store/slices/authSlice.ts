@@ -2,7 +2,7 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
 import http from "../../apis/http";
 
-interface AuthState {
+export interface AuthState {
   status: "idle" | "loading" | "succeeded" | "failed";
   error?: string;
   user?: { id: number; email: string; username: string };
@@ -37,7 +37,21 @@ export const register = createAsyncThunk(
 const authSlice = createSlice({
   name: "auth",
   initialState,
-  reducers: {},
+  reducers: {
+    logout(state) {
+      state.user = undefined;
+      state.status = "idle";
+      state.error = undefined;
+    },
+    setUser(
+      state,
+      action: PayloadAction<
+        { id: number; email: string; username: string } | undefined
+      >
+    ) {
+      state.user = action.payload;
+    },
+  },
   extraReducers: (builder) => {
     builder
       .addCase(login.pending, (state) => {
@@ -64,7 +78,16 @@ const authSlice = createSlice({
       })
       .addCase(register.fulfilled, (state, action: PayloadAction<any>) => {
         state.status = "succeeded";
-        state.user = action.payload;
+        const p = action.payload || {};
+        if (p && typeof p === "object") {
+          state.user = {
+            id: p.id ?? 0,
+            email: p.email ?? "",
+            username: p.username ?? "",
+          };
+        } else {
+          state.user = undefined;
+        }
       })
       .addCase(register.rejected, (state, action) => {
         state.status = "failed";
@@ -73,4 +96,5 @@ const authSlice = createSlice({
   },
 });
 
+export const { logout, setUser } = authSlice.actions;
 export default authSlice.reducer;
