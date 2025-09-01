@@ -1,13 +1,14 @@
 import { useState } from "react";
 import { useAppDispatch, useAppSelector } from "../store/hooks";
 import { useNavigate } from "react-router-dom";
-import { login } from "../store/slices/authSlice";
+import { register } from "../store/slices/authSlice";
 
-export default function LoginPage() {
+export default function RegisterPage() {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const status = useAppSelector((s) => s.auth.status);
   const error = useAppSelector((s) => s.auth.error);
+  const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
@@ -46,9 +47,21 @@ export default function LoginPage() {
         </h1>
       </header>
 
-      <h2 style={{ color: "#4facfe", marginBottom: "1rem" }}>Login</h2>
+      <h2 style={{ color: "#4facfe", marginBottom: "1rem" }}>Create Account</h2>
 
       <div style={{ display: "flex", flexDirection: "column", gap: "1rem" }}>
+        <input
+          type="text"
+          placeholder="Username"
+          value={username}
+          onChange={(e) => setUsername(e.target.value)}
+          style={{
+            padding: "0.8rem",
+            border: "2px solid #e0e0e0",
+            borderRadius: 10,
+            fontSize: "1rem",
+          }}
+        />
         <input
           type="email"
           placeholder="Email"
@@ -73,28 +86,10 @@ export default function LoginPage() {
             fontSize: "1rem",
           }}
         />
-        <button
-          onClick={() => dispatch(login({ email, password }))}
-          disabled={status === "loading"}
-          style={{
-            background: "linear-gradient(135deg, #ff6b6b, #ee5a24)",
-            color: "#fff",
-            padding: "0.9rem 1rem",
-            borderRadius: 25,
-            fontWeight: 600,
-            border: "none",
-            cursor: "pointer",
-          }}
-        >
-          {status === "loading" ? "Logging in..." : "Login"}
-        </button>
-
-        <div style={{ textAlign: "center", color: "#666" }}>
-          Don't have an account?
-        </div>
 
         <button
-          onClick={() => navigate("/register")}
+          onClick={() => dispatch(register({ username, email, password }))}
+          disabled={status === "loading" || !email || !password || !username}
           style={{
             background: "linear-gradient(135deg, #4facfe, #00f2fe)",
             color: "#fff",
@@ -105,10 +100,29 @@ export default function LoginPage() {
             cursor: "pointer",
           }}
         >
-          Register
+          {status === "loading" ? "Registering..." : "Register"}
         </button>
 
         {error && <div style={{ color: "#dc3545" }}>{error}</div>}
+
+        <div style={{ textAlign: "center", color: "#666" }}>
+          Already have an account?
+        </div>
+
+        <button
+          onClick={() => navigate("/login")}
+          style={{
+            background: "linear-gradient(135deg, #ff6b6b, #ee5a24)",
+            color: "#fff",
+            padding: "0.9rem 1rem",
+            borderRadius: 25,
+            fontWeight: 600,
+            border: "none",
+            cursor: "pointer",
+          }}
+        >
+          Login
+        </button>
       </div>
     </div>
   );
