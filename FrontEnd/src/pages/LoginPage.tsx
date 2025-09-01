@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useAppDispatch, useAppSelector } from "../store/hooks";
 import { useNavigate } from "react-router-dom";
 import { login } from "../store/slices/authSlice";
@@ -8,8 +8,13 @@ export default function LoginPage() {
   const navigate = useNavigate();
   const status = useAppSelector((s) => s.auth.status);
   const error = useAppSelector((s) => s.auth.error);
+  const user = useAppSelector((s) => s.auth.user);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+
+  useEffect(() => {
+    if (user) navigate("/home");
+  }, [user, navigate]);
 
   return (
     <div
@@ -39,10 +44,7 @@ export default function LoginPage() {
         <h1
           style={{ margin: 0, display: "flex", alignItems: "center", gap: 8 }}
         >
-          <span role="img" aria-label="dumbbell">
-            🏋️
-          </span>{" "}
-          FitBuddy
+            <span role="img" aria-label="dumbbell">🏋️</span> FitBuddy
         </h1>
       </header>
 

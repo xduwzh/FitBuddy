@@ -14,10 +14,15 @@ const initialState: AuthState = {
 
 export const login = createAsyncThunk(
   "auth/login",
-  async (payload: { email: string; password: string }) => {
-    // adjust to your backend login API
-    const res = await http.post("/login", payload);
-    return res.data as { message: string };
+  async (payload: { email: string; password: string }, { rejectWithValue }) => {
+    try {
+      const res = await http.post("/login", payload);
+      // Expect { id, email, username }
+      return res.data as { id: number; email: string; username: string };
+    } catch (err: any) {
+      const msg = err?.response?.data || err?.message || "Login failed";
+      return rejectWithValue(String(msg));
+    }
   }
 );
 
@@ -39,12 +44,19 @@ const authSlice = createSlice({
         state.status = "loading";
         state.error = undefined;
       })
-      .addCase(login.fulfilled, (state) => {
-        state.status = "succeeded";
-      })
+      .addCase(
+        login.fulfilled,
+        (
+          state,
+          action: PayloadAction<{ id: number; email: string; username: string }>
+        ) => {
+          state.status = "succeeded";
+          state.user = action.payload;
+        }
+      )
       .addCase(login.rejected, (state, action) => {
         state.status = "failed";
-        state.error = action.error.message;
+        state.error = (action.payload as string) || action.error.message;
       })
       .addCase(register.pending, (state) => {
         state.status = "loading";

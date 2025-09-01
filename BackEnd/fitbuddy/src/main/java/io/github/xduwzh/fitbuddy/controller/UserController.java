@@ -2,6 +2,8 @@ package io.github.xduwzh.fitbuddy.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.http.ResponseEntity;
+import org.springframework.http.HttpStatus;
 import io.github.xduwzh.fitbuddy.entity.User;
 import io.github.xduwzh.fitbuddy.service.UserService; 
 
@@ -18,9 +20,10 @@ public class UserController {
     }
 
     @PostMapping("/login")
-    public String login(@RequestBody LoginRequest body) {
-        boolean success = userService.login(body.getEmail(), body.getPassword());
-        return success ? "Login successful" : "Invalid email or password";
+    public ResponseEntity<?> login(@RequestBody LoginRequest body) {
+        return userService.authenticate(body.getEmail(), body.getPassword())
+            .<ResponseEntity<?>>map(user -> ResponseEntity.ok(new LoginResponse(user.getId(), user.getEmail(), user.getUsername())))
+            .orElseGet(() -> ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid email or password"));
     }
 
     public static class LoginRequest {
@@ -31,5 +34,21 @@ public class UserController {
         public void setEmail(String email) { this.email = email; }
         public String getPassword() { return password; }
         public void setPassword(String password) { this.password = password; }
+    }
+
+    public static class LoginResponse {
+        private Long id;
+        private String email;
+        private String username;
+
+        public LoginResponse(Long id, String email, String username) {
+            this.id = id;
+            this.email = email;
+            this.username = username;
+        }
+
+        public Long getId() { return id; }
+        public String getEmail() { return email; }
+        public String getUsername() { return username; }
     }
 }

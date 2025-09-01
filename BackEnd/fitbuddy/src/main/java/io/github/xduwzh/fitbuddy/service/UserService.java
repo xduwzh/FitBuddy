@@ -29,4 +29,12 @@ public class UserService {
         return false;
     }
 
+    public Optional<User> authenticate(String email, String rawPassword) {
+        Optional<User> userOpt = userRepository.findByEmail(email);
+        if (userOpt.isPresent() && passwordEncoder.matches(rawPassword, userOpt.get().getPassword())) {
+            return userOpt;
+        }
+        return Optional.empty();
+    }
+
 }
