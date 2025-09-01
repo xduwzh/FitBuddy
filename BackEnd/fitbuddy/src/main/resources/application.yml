@@ -1,6 +1,9 @@
 spring:
   application:
     name: fitbuddy
+  docker:
+    compose:
+      enabled: true
   datasource:
     url: jdbc:postgresql://localhost:5432/fitbuddy_db
     username: fitbuddy_user
