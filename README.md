@@ -9,10 +9,10 @@ A full‑stack fitness tracker with daily check‑ins, streak stats, editable pr
 ## Screenshots
 
 <p align="center">
-  <img src=".vscode/screenshots/homepage.png" alt="Home page" width="90%"/>
+  <img src="screenshots/homepage.png" alt="Home page" width="90%"/>
 </p>
 <p align="center">
-  <img src=".vscode/screenshots/statspage.png" alt="Stats page" width="90%"/>
+  <img src="screenshots/statspage.png" alt="Stats page" width="90%"/>
 </p>
 
 ## Monorepo layout
