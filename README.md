@@ -9,11 +9,11 @@ A full‑stack fitness tracker with daily check‑ins, streak stats, editable pr
 ## Screenshots
 
 <p align="center">
-  <img src=".vscode/screenshots/homepage.png" alt="Home page" width="90%"/>
+  <img src="screenshots/homepage.png" alt="Home page" width="90%"/>
   <br/>
   <em>Home: daily check‑in + AI assistant</em>
   <br/><br/>
-  <img src=".vscode/screenshots/statspage.png" alt="Stats page" width="90%"/>
+  <img src="screenshots/statspage.png" alt="Stats page" width="90%"/>
   <br/>
   <em>Statistics: totals, streaks, and monthly calendar</em>
   <br/>
@@ -25,7 +25,7 @@ A full‑stack fitness tracker with daily check‑ins, streak stats, editable pr
 BackEnd/
   fitbuddy/               # Spring Boot app
 FrontEnd/                 # React + Vite app
-.vscode/screenshots/      # Images used in README
+screenshots/              # Images used in README
 ```
 
 ## Prerequisites
