@@ -2,17 +2,21 @@
 
 A full‑stack fitness tracker with daily check‑ins, streak stats, editable profile, settings, and an AI Fitness Assistant.
 
-- Backend: Spring Boot 3 (Java 17), PostgreSQL, Spring Security, JPA/Hibernate
-- Frontend: React + TypeScript + Vite, Redux Toolkit, Axios
+- Backend: Spring Boot 3 (Java 17), PostgreSQL, Spring Security, JPA/Hibernate, Redis (bitmap for check‑ins)
+- Frontend: React + TypeScript + Vite, Redux Toolkit, Axios, Markdown rendering for AI
 - AI: Gemini via `@google/generative-ai`
 
 ## Screenshots
 
 <p align="center">
-  <img src="screenshots/homepage.png" alt="Home page" width="90%"/>
-</p>
-<p align="center">
-  <img src="screenshots/statspage.png" alt="Stats page" width="90%"/>
+  <img src=".vscode/screenshots/homepage.png" alt="Home page" width="90%"/>
+  <br/>
+  <em>Home: daily check‑in + AI assistant</em>
+  <br/><br/>
+  <img src=".vscode/screenshots/statspage.png" alt="Stats page" width="90%"/>
+  <br/>
+  <em>Statistics: totals, streaks, and monthly calendar</em>
+  <br/>
 </p>
 
 ## Monorepo layout
@@ -28,17 +32,17 @@ FrontEnd/                 # React + Vite app
 
 - Node.js 18+
 - Java 17+
-- Docker (for PostgreSQL via docker‑compose)
+- Docker (for PostgreSQL & Redis via docker‑compose)
 
 ## Quick start (local)
 
-1. Start Postgres with docker‑compose (runs a local DB on 5432):
+1. Start Postgres & Redis with docker‑compose (DB on 5432, Redis on 6379):
 
 ```sh
 docker-compose up -d
 ```
 
-2. Configure Spring Boot datasource (already set to localhost:5432): `BackEnd/fitbuddy/src/main/resources/application.yml`
+2. Configure Spring Boot datasource/redis (already set to localhost): `BackEnd/fitbuddy/src/main/resources/application.yml`
 
 ```yml
 spring:
@@ -46,6 +50,10 @@ spring:
     url: jdbc:postgresql://localhost:5432/fitbuddy_db
     username: fitbuddy_user
     password: fitbuddy_password
+  data:
+    redis:
+      host: localhost
+      port: 6379
 ```
 
 3. Run the backend (Spring Boot):
@@ -88,6 +96,10 @@ VITE_GEMINI_API_KEY=your_api_key_here
 - Settings: Language (English/中文), Theme (Light/Dark/System), Unit (Metric/Imperial).
 - AI Assistant: Personalized workout/nutrition chat with Markdown rendering and streaming responses.
 
+Performance note: Check-in reads/writes use a
+Redis bitmap per user-year (key `checkin:{userId}:{year}`) for O(1) "checked today" and quick calendar synthesis;
+historical data is backfilled from Postgres where needed.
+
 ## API overview
 
 - `POST /register` – create user
@@ -108,6 +120,7 @@ CORS is enabled for http://localhost:5173 with credentials; preflight (OPTIONS) 
 - JPA entities: `User`, `Checkin`, `UserCheckinStats`, `UserProfile` (with `@JsonIgnore` on user relation to avoid lazy‑proxy serialization issues).
 - Frontend state: Redux Toolkit for auth and settings with localStorage persistence.
 - AI chat: Uses `@google/generative-ai`; history starts with the first user message; model replies render as Markdown (GFM) to display lists and bold text cleanly.
+- Redis: Bitmap service for check-ins (`SETBIT`/`GETBIT` via Spring Data Redis); DB backfill keeps historical rows intact for stats.
 
 ## Build/Deploy
 
